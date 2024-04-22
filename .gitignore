@@ -1,5 +1,5 @@
 /target
-output.json
+output.*
 .idea
 .idea/
 .idea/*

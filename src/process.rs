@@ -1,4 +1,6 @@
+use crate::opts::OutputFormat;
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use std::fs;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -13,15 +15,25 @@ struct Player {
     kit: u8,
 }
 
-pub fn process_csv(input: &str, output: &str) -> anyhow::Result<()> {
+pub fn process_csv(input: &str, output: String, format: OutputFormat) -> anyhow::Result<()> {
     let mut reader = csv::Reader::from_path(input)?;
     let mut res = Vec::with_capacity(128);
-    for result in reader.deserialize() {
-        let record: Player = result?;
-        res.push(record);
+    let headers = reader.headers()?.clone();
+
+    for result in reader.records() {
+        let record = result?;
+        // headers.iter() -> 使用 headers 的迭代器
+        // record.iter() -> 使用 record 的迭代器
+        // zip() -> 将两个迭代器合并为一个元组迭代器 [(header, record), ...]
+        let json_value = headers.iter().zip(record.iter()).collect::<Value>();
+        res.push(json_value);
     }
 
-    let json = serde_json::to_string_pretty(&res)?;
-    fs::write(output, json)?;
+    let content = match format {
+        OutputFormat::Json => serde_json::to_string_pretty(&res)?,
+        OutputFormat::Yaml => serde_yaml::to_string(&res)?,
+    };
+
+    fs::write(output, content)?;
     Ok(())
 }
