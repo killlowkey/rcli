@@ -40,7 +40,7 @@ pub fn process_gen_pass(
         password.push(*SYMBOL.choose(&mut rng).expect("symbol won't be empty"))
     }
 
-    for _ in 0..length {
+    for _ in 0..(length - password.len() as u8) {
         let c = chars
             .choose(&mut rng)
             .expect("chars won't be empty in this context");
