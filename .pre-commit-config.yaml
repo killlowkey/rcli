@@ -9,6 +9,7 @@ repos:
       - id: check-symlinks
       - id: check-yaml
       - id: end-of-file-fixer
+        exclude: ^fixtures/ # 排除 fixtures 文件夹及其子目录，否则 test_process_decode 测试无法通过
       - id: mixed-line-ending
       - id: trailing-whitespace
   - repo: https://github.com/psf/black

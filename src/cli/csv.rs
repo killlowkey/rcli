@@ -1,6 +1,6 @@
+use crate::cli::verify_input_file;
 use clap::Parser;
 use std::fmt::{Display, Formatter};
-use std::path::Path;
 use std::str::FromStr;
 
 #[derive(Debug, Clone, Copy)]
@@ -25,15 +25,6 @@ pub struct CsvOpts {
 
     #[arg(long, default_value_t = true)]
     pub header: bool,
-}
-
-// 校验文件是否存在
-fn verify_input_file(filename: &str) -> anyhow::Result<String, &'static str> {
-    if Path::new(filename).exists() {
-        Ok(filename.into())
-    } else {
-        Err("File does not exist")
-    }
 }
 
 // 将字符串转为 OutputFormat
