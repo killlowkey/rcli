@@ -75,6 +75,7 @@ fn parse_format(format: &str) -> anyhow::Result<OutputFormat, anyhow::Error> {
     format.parse()
 }
 
+// 实现了 From，也会自动实现 Into，可以将 OutputFormat 转为 &str
 impl From<OutputFormat> for &'static str {
     fn from(format: OutputFormat) -> Self {
         match format {
@@ -84,6 +85,7 @@ impl From<OutputFormat> for &'static str {
     }
 }
 
+// 从 &str 转为 OutputFormat
 impl FromStr for OutputFormat {
     type Err = anyhow::Error;
 
@@ -98,6 +100,7 @@ impl FromStr for OutputFormat {
 
 impl Display for OutputFormat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        // <&'static str> 将转换后类型限定为 &str
         write!(f, "{}", Into::<&'static str>::into(*self))
     }
 }

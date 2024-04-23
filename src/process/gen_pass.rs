@@ -22,6 +22,7 @@ pub fn process_gen_pass(
     // 要保证生成的密码，每个类型都至少有一个
     if upper {
         chars.extend_from_slice(UPPER);
+        // 这里将数据添加到 password，会进行类型推导，password 数据类型就被限定为 Vec<u8>
         password.push(*UPPER.choose(&mut rng).expect("upper won't be empty"))
     }
 
