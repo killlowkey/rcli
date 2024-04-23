@@ -3,22 +3,6 @@ use std::fmt::{Display, Formatter};
 use std::path::Path;
 use std::str::FromStr;
 
-#[derive(Debug, Parser)]
-#[command(version, about, author, long_about = None)]
-pub struct Opts {
-    #[command(subcommand)]
-    pub cmd: Subcommand,
-}
-
-#[derive(Debug, Parser)]
-pub enum Subcommand {
-    #[command(name = "csv", about = "Show CSV, or convert CSV to other format")]
-    Csv(CsvOpts),
-
-    #[command(name = "genpass", about = "Generate a random password")]
-    GenPass(GenPassOpts),
-}
-
 #[derive(Debug, Clone, Copy)]
 pub enum OutputFormat {
     Json,
@@ -41,24 +25,6 @@ pub struct CsvOpts {
 
     #[arg(long, default_value_t = true)]
     pub header: bool,
-}
-
-#[derive(Debug, Parser)]
-pub struct GenPassOpts {
-    #[arg(short, long, default_value_t = 16)]
-    pub length: u8,
-
-    #[arg(long, default_value_t = true)]
-    pub uppercase: bool,
-
-    #[arg(long, default_value_t = true)]
-    pub lowercase: bool,
-
-    #[arg(long, default_value_t = true)]
-    pub number: bool,
-
-    #[arg(long, default_value_t = true)]
-    pub symbol: bool,
 }
 
 // 校验文件是否存在
