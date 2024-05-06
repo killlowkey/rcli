@@ -32,6 +32,14 @@ repos:
         language: rust
         files: \.rs$
         args: []
+      - id: typos
+        name: typos
+        description: check typo
+        entry: bash -c 'typos'
+        language: rust
+        files: \.*$
+        exclude: ^fixtures/
+        pass_filenames: false
       - id: cargo-check
         name: cargo check
         description: Check the package for errors.
